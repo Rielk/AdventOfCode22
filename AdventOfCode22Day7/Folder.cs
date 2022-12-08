@@ -38,4 +38,16 @@ internal class Folder
 
         return ret;
     }
+
+    public List<Folder> GetFoldersAtLeast(int x)
+    {
+        List<Folder> ret = new();
+        foreach (Folder folder in Folders)
+            ret.AddRange(folder.GetFoldersAtLeast(x));
+
+        if (FileSize >= x)
+            ret.Add(this);
+
+        return ret;
+    }
 }

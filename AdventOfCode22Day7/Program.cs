@@ -42,7 +42,16 @@ foreach (string line in input.Split(Environment.NewLine))
     }
 }
 
-var SumOfSmalls = RootFolder.GetFoldersAtMost(100000).Select(x => x.FileSize).Sum();
+int SumOfSmalls = RootFolder.GetFoldersAtMost(100000).Select(x => x.FileSize).Sum();
+
+const int TotalSize = 70000000;
+const int TargetSpace = 30000000;
+
+int FreeSpace = TotalSize - RootFolder.FileSize;
+int NeededSpace = TargetSpace - FreeSpace;
+
+int SmallestFolderLargeEnough = RootFolder.GetFoldersAtLeast(NeededSpace).Select(x => x.FileSize).Min();
 
 Console.WriteLine($"Sum of sizes of folders less than 100000: {SumOfSmalls}");
 Console.WriteLine();
+Console.WriteLine($"Smallest folder to free up enough space: {SmallestFolderLargeEnough}");
