@@ -8,3 +8,4 @@ Forest Forest = new(array);
 
 Console.WriteLine($"Number of visible Trees: {Forest.CountVisible()}");
 Console.WriteLine();
+Console.WriteLine($"Highest Scenic Score: {Forest.FindHighestScenicScore()}");

@@ -90,4 +90,59 @@ internal class Forest
         return count;
     }
 
+    internal int FindHighestScenicScore()
+    {
+        int highestScore = 0;
+
+        for (int i = 0; i < Height; i++)
+            for (int j = 0; j < Width; j++)
+            {
+                int h = TreeArray[i][j].Height;
+                int lView = 0, rView = 0, uView = 0, dView = 0;
+
+                int compare = -1;
+                int rIndex = i;
+                int cIndex = j;
+                while (compare < h && cIndex > 0)
+                {
+                    cIndex--;
+                    compare = TreeArray[rIndex][cIndex].Height;
+                    lView++;
+                }
+                compare = -1;
+                rIndex = i;
+                cIndex = j;
+                while (compare < h && cIndex < Width - 1)
+                {
+                    cIndex++;
+                    compare = TreeArray[rIndex][cIndex].Height;
+                    rView++;
+                }
+
+                compare = -1;
+                rIndex = i;
+                cIndex = j;
+                while (compare < h && rIndex > 0)
+                {
+                    rIndex--;
+                    compare = TreeArray[rIndex][cIndex].Height;
+                    uView++;
+                }
+                compare = -1;
+                rIndex = i;
+                cIndex = j;
+                while (compare < h && rIndex < Height - 1)
+                {
+                    rIndex++;
+                    compare = TreeArray[rIndex][cIndex].Height;
+                    dView++;
+                }
+
+                int thisScore = lView * rView * uView * dView;
+                if (thisScore > highestScore)
+                    highestScore = thisScore;
+            }
+
+        return highestScore;
+    }
 }
