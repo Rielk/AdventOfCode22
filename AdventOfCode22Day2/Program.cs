@@ -20,7 +20,7 @@ foreach (string item in input.Split(Environment.NewLine))
         ('B', 'Z') => 6 + 3, //P, S
         ('C', 'Z') => 3 + 3, //S, S
 
-        (_, 'X' or 'Y' or 'Z') => throw new ArgumentException(nameof(split), "Unrecognised characters is second"),
+        (_, 'X' or 'Y' or 'Z') => throw new ArgumentException(nameof(split), "Unrecognised characters is first"),
         ('A' or 'B' or 'C', _) => throw new ArgumentException(nameof(split), "Unrecognised characters is second"),
         _ => throw new ArgumentException(nameof(split), "Unrecognised characters in both")
     };
@@ -47,7 +47,7 @@ foreach (string item in input.Split(Environment.NewLine))
         ('B', 'Z') => 6 + 3, //P, W = S
         ('C', 'Z') => 6 + 1, //S, W = R
 
-        (_, 'X' or 'Y' or 'Z') => throw new ArgumentException(nameof(split), "Unrecognised characters is second"),
+        (_, 'X' or 'Y' or 'Z') => throw new ArgumentException(nameof(split), "Unrecognised characters is first"),
         ('A' or 'B' or 'C', _) => throw new ArgumentException(nameof(split), "Unrecognised characters is second"),
         _ => throw new ArgumentException(nameof(split), "Unrecognised characters in both")
     };
