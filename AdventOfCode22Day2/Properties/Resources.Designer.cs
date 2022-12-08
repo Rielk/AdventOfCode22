@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdventOfCode22Day1.Properties {
+namespace AdventOfCode22Day2.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AdventOfCode22Day1.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AdventOfCode22Day1.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AdventOfCode22Day2.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,96 +61,109 @@ namespace AdventOfCode22Day1.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 9609
-        ///7601
-        ///7142
-        ///5278
-        ///9374
-        ///6815
-        ///1050
-        ///6329
-        ///8016
-        ///
-        ///12477
-        ///28601
-        ///
-        ///1056
-        ///5037
-        ///1660
-        ///3786
-        ///2611
-        ///6689
-        ///3159
-        ///2973
-        ///5286
-        ///2401
-        ///6231
-        ///7460
-        ///
-        ///3689
-        ///3909
-        ///9254
-        ///5704
-        ///10307
-        ///10173
-        ///9336
-        ///4586
-        ///
-        ///5476
-        ///16022
-        ///9109
-        ///11504
-        ///6746
-        ///
-        ///1006
-        ///1685
-        ///2688
-        ///4776
-        ///6234
-        ///5807
-        ///4943
-        ///4944
-        ///4982
-        ///1731
-        ///3196
-        ///5573
-        ///5269
-        ///1266
-        ///
-        ///12097
-        ///15573
-        ///1113
-        ///8920
-        ///14145
-        ///
-        ///4723
-        ///2428
-        ///3864
-        ///4657
-        ///5046
-        ///5135
-        ///5104
-        ///1867
-        ///5130
-        ///1751
-        ///6029
-        ///4551
-        ///1924
-        ///4998
-        ///4255
-        ///
-        ///2706
-        ///5595
-        ///10508
-        ///3676
-        ///11580
-        ///6061
-        ///7902
-        ///
-        ///2523
-        ///11236
-        ///1915
-        ///15 [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to C X
+        ///C Y
+        ///C X
+        ///B X
+        ///B Z
+        ///A Z
+        ///C Y
+        ///C Z
+        ///B Z
+        ///C X
+        ///B Y
+        ///C Y
+        ///C Y
+        ///A Y
+        ///C Y
+        ///C Y
+        ///C Z
+        ///C X
+        ///B Z
+        ///C Y
+        ///A Y
+        ///A Y
+        ///C Z
+        ///B Y
+        ///A Y
+        ///C Z
+        ///C Y
+        ///A Y
+        ///A Y
+        ///B Y
+        ///C Y
+        ///C Z
+        ///C Y
+        ///B X
+        ///B Z
+        ///C Y
+        ///B Z
+        ///A X
+        ///C Z
+        ///A Y
+        ///B Y
+        ///C Y
+        ///C Y
+        ///B Z
+        ///B Y
+        ///A Z
+        ///C X
+        ///C X
+        ///C Y
+        ///C X
+        ///B Z
+        ///A Y
+        ///B X
+        ///B Z
+        ///C Z
+        ///C X
+        ///C X
+        ///B Z
+        ///A Y
+        ///B Y
+        ///C Y
+        ///C Y
+        ///A Y
+        ///C X
+        ///A Y
+        ///B Z
+        ///C Y
+        ///C Y
+        ///B Y
+        ///C Y
+        ///A Z
+        ///A Z
+        ///B X
+        ///A Y
+        ///C Y
+        ///A Y
+        ///C Y
+        ///C Y
+        ///C X
+        ///C Y
+        ///B Z
+        ///C Y
+        ///C Z
+        ///C X
+        ///B X
+        ///C Y
+        ///C Y
+        ///C X
+        ///C Z
+        ///A Y
+        ///C X
+        ///B Z
+        ///C X
+        ///A Y
+        ///B Y
+        ///C Y
+        ///A Y
+        ///A Y
+        ///A Y
+        ///B Y
+        ///C Y
+        ///A Y
+        ///A  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Input1 {
             get {

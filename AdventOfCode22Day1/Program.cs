@@ -1,6 +1,6 @@
 ﻿using AdventOfCode22Day1.Properties;
 
-string input = Resources.Input_D1;
+string input = Resources.Input1;
 
 List<int> Totals = new();
 int curTotal = 0;
