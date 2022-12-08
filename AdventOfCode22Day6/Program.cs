@@ -2,10 +2,9 @@
 
 string input = Resources.Input1;
 
-int countToMarker = FindXUnique(4);
-
-Console.WriteLine($"Characters processed before the first marker: {countToMarker}");
+Console.WriteLine($"Characters processed before the first packet marker: {FindXUnique(4)}");
 Console.WriteLine();
+Console.WriteLine($"Characters processed before the first message marker: {FindXUnique(14)}");
 
 int FindXUnique(int n)
 {
