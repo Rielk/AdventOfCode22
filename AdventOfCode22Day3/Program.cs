@@ -15,13 +15,27 @@ foreach (char[] Items in input.Split(Environment.NewLine).Select(x => x.ToCharAr
     IEnumerable<char> matches = firHalf.Intersect(secHalf);
 
     foreach (char item in matches)
-    {
         prioritySum += CharToPriority(item);
-    }
 }
 
-Console.WriteLine($"Sum of priorities: {prioritySum}");
+Console.WriteLine($"Sum of individual priorities: {prioritySum}");
 Console.WriteLine();
+
+prioritySum = 0;
+
+foreach (char[][] Group in input.Split(Environment.NewLine).Select(x => x.ToCharArray()).Chunk(3).ToArray())
+{
+    char[] items1 = Group[0];
+    char[] items2 = Group[1];
+    char[] items3 = Group[2];
+
+    IEnumerable<char> matches = items1.Intersect(items2).Intersect(items3);
+
+    foreach (char item in matches)
+        prioritySum += CharToPriority(item);
+}
+
+Console.WriteLine($"Sum of group priorities: {prioritySum}");
 
 static int CharToPriority(char item)
 {
