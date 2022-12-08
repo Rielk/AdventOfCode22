@@ -3,6 +3,7 @@
 string input = Resources.Input1;
 
 int containedCount = 0;
+int overlapCount = 0;
 
 foreach (string items in input.Split(Environment.NewLine))
 {
@@ -12,10 +13,13 @@ foreach (string items in input.Split(Environment.NewLine))
 
     if (range1.FullyOverlaps(range2))
         containedCount++;
+    if (range1.PartialOverlaps(range2))
+        overlapCount++;
 }
 
 Console.WriteLine($"Sum of pairs with contained ranges: {containedCount}");
 Console.WriteLine();
+Console.WriteLine($"Sum of pairs with overlapping ranges: {overlapCount}");
 
 internal class Range
 {
@@ -27,6 +31,8 @@ internal class Range
         string[] chars = input.Split('-');
         Start = int.Parse(chars[0]);
         End = int.Parse(chars[1]);
+        if (Start > End)
+            (Start, End) = (End, Start);
     }
 
     public bool FullyOverlaps(Range compare)
@@ -34,5 +40,11 @@ internal class Range
         if (Start >= compare.Start && End <= compare.End) return true;
         if (compare.Start >= Start && compare.End <= End) return true;
         return false;
+    }
+
+    public bool PartialOverlaps(Range compare)
+    {
+        if (Start > compare.End || End < compare.Start) return false;
+        return true;
     }
 }
