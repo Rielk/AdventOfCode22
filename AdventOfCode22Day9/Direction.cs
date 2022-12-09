@@ -1,7 +1,9 @@
 ﻿namespace AdventOfCode22Day9;
 internal enum Direction
 {
-    Up, Down, Left, Right
+    None,
+    Up, Down, Left, Right,
+    UL, UR, DL, DR
 }
 
 internal static class ToDirectionExtensions
