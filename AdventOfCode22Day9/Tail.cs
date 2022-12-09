@@ -33,27 +33,21 @@ internal class Tail : Head
             (_, _, _, _, true, true, _, _) => throw new ArgumentException(),
             (_, _, _, _, _, _, true, true) => throw new ArgumentException(),
 
-            (true, _, true, _, _, _, _, _) => Direction.UL,
-            (true, _, _, true, _, _, _, _) => Direction.UR,
+            (true, _, _, _, _, _, false, false) => Direction.Up,
+            (true, _, _, _, _, _, true, _) => Direction.UL,
+            (true, _, _, _, _, _, _, true) => Direction.UR,
 
-            (_, true, true, _, _, _, _, _) => Direction.DL,
-            (_, true, _, true, _, _, _, _) => Direction.DR,
+            (_, true, _, _, _, _, false, false) => Direction.Down,
+            (_, true, _, _, _, _, true, _) => Direction.DL,
+            (_, true, _, _, _, _, _, true) => Direction.DR,
 
-            (true, _, false, false, _, _, false, false) => Direction.Up,
-            (true, _, false, false, _, _, true, _) => Direction.UL,
-            (true, _, false, false, _, _, _, true) => Direction.UR,
+            (_, _, true, _, false, false, _, _) => Direction.Left,
+            (_, _, true, _, true, _, _, _) => Direction.UL,
+            (_, _, true, _, _, true, _, _) => Direction.DL,
 
-            (_, true, false, false, _, _, false, false) => Direction.Down,
-            (_, true, false, false, _, _, true, _) => Direction.DL,
-            (_, true, false, false, _, _, _, true) => Direction.DR,
-
-            (false, false, true, _, false, false, _, _) => Direction.Left,
-            (false, false, true, _, true, _, _, _) => Direction.UL,
-            (false, false, true, _, _, true, _, _) => Direction.DL,
-
-            (false, false, _, true, false, false, _, _) => Direction.Right,
-            (false, false, _, true, true, _, _, _) => Direction.UR,
-            (false, false, _, true, _, true, _, _) => Direction.DR,
+            (_, _, _, true, false, false, _, _) => Direction.Right,
+            (_, _, _, true, true, _, _, _) => Direction.UR,
+            (_, _, _, true, _, true, _, _) => Direction.DR,
 
             (false, false, false, false, _, _, _, _) => Direction.None
         };
