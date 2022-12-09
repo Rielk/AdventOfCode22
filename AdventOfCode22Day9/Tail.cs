@@ -51,7 +51,6 @@ internal class Tail : Head
         {
             Move(direction, 1);
             PositionHistory.Add(Position);
-            Tail?.Update();
         }
     }
 }
