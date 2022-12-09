@@ -1,13 +1,12 @@
 ﻿namespace AdventOfCode22Day9;
-internal class Tail
+internal class Tail : Head
 {
-    public Tail(Head head)
+    internal Tail(Head head)
     {
         Head = head;
     }
 
     public Head Head { get; }
-    public Position Position { get; private set; } = new(0, 0);
     public Position HeadPosition => Head.Position;
 
     public List<Position> PositionHistory { get; } = new() { new(0, 0) };
@@ -27,5 +26,6 @@ internal class Tail
 
         //Will only be called if it doesn't return, ie. if position is changed.
         PositionHistory.Add(Position);
+        Tail?.Update();
     }
 }

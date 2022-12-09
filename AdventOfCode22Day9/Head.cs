@@ -1,13 +1,23 @@
 ﻿namespace AdventOfCode22Day9;
 internal class Head
 {
-    public Head()
+    public static Head CreateLength(int n)
     {
-        Tail = new(this);
+        var head = new Head();
+        Head firstHead = head;
+        int i = 1;
+        while (i < n)
+        {
+            head = head.Tail = new(head);
+            i++;
+        }
+        return firstHead;
     }
 
-    public Tail Tail { get; }
-    public Position Position { get; private set; } = new(0, 0);
+    protected Head() { }
+
+    public Tail? Tail { get; private set; }
+    public Position Position { get; protected set; } = new(0, 0);
 
     public void Move(Direction direction, int n)
     {
@@ -23,7 +33,7 @@ internal class Head
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), $"{direction} is not a recognised Direction")
             };
 
-            Tail.Update();
+            Tail?.Update();
             i++;
         }
     }
