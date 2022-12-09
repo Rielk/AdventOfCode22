@@ -28,11 +28,6 @@ internal class Tail : Head
 
         Direction direction = (ToFarU, ToFarD, ToFarL, ToFarR, IsU, IsD, IsL, IsR) switch
         {
-            (true, true, _, _, _, _, _, _) => throw new ArgumentException(),
-            (_, _, true, true, _, _, _, _) => throw new ArgumentException(),
-            (_, _, _, _, true, true, _, _) => throw new ArgumentException(),
-            (_, _, _, _, _, _, true, true) => throw new ArgumentException(),
-
             (true, _, _, _, _, _, false, false) => Direction.Up,
             (true, _, _, _, _, _, true, _) => Direction.UL,
             (true, _, _, _, _, _, _, true) => Direction.UR,
