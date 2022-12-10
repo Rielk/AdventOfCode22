@@ -32,7 +32,7 @@ Console.WriteLine();
 
 foreach (int[] line in BufferHistory.Chunk(40))
 {
-    string print = new string(line.Select((x, i) => x == i || x + 1 == i || x - 1 == i).Select(b => b ? '#' : '.').ToArray());
+    string print = string.Join("", line.Select((x, i) => x == i || x + 1 == i || x - 1 == i).Select(b => b ? "##" : "..").ToArray());
     Console.WriteLine(print);
 }
 
