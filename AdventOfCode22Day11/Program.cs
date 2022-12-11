@@ -1,4 +1,5 @@
 ﻿using AdventOfCode22Day11;
+using AdventOfCode22Day11.Properties;
 using System.Numerics;
 
 Dictionary<int, Monkey> Monkeys = CreateMonkeys();
@@ -14,21 +15,27 @@ WriteOutput();
 
 static Dictionary<int, Monkey> CreateMonkeys()
 {
+    string input = Resources.Input1;
+
     Dictionary<int, Monkey> Monkeys = new();
 
-    //_ = new Monkey(Monkeys, 0, new() { 79, 98 }, Operation.Mul, 19, 23, 2, 3);
-    //_ = new Monkey(Monkeys, 1, new() { 54, 65, 75, 74 }, Operation.Add, 6, 19, 2, 0);
-    //_ = new Monkey(Monkeys, 2, new() { 79, 60, 97 }, Operation.Square, 0, 13, 1, 3);
-    //_ = new Monkey(Monkeys, 3, new() { 74 }, Operation.Add, 3, 17, 0, 1);
+    string[] monkeyStringArray = input.Split(string.Join("", new string[] { Environment.NewLine, Environment.NewLine }));
+    foreach (string monkeyString in monkeyStringArray)
+    {
+        string[] line = monkeyString.Split(Environment.NewLine);
+        int n = int.Parse(new string(line[0].Where(c => char.IsDigit(c)).ToArray()));
+        var startingList = line[1].Split(':')[1].Split(',').Select(s => int.Parse(s.Trim())).Select(i => new BigInteger(i)).ToList();
+        Operation op = line[2].Trim()[21] switch { '*' => Operation.Mul, '+' => Operation.Add, _ => throw new NotImplementedException() };
+        string opFactorS = new(line[2].Trim().Skip(22).ToArray());
+        int opFactor = 0;
+        if (opFactorS.Trim() == "old") op = Operation.Square;
+        else opFactor = int.Parse(opFactorS);
+        int div = int.Parse(new string(line[3].Where(c => char.IsDigit(c)).ToArray()));
+        int tMonk = int.Parse(new string(line[4].Where(c => char.IsDigit(c)).ToArray()));
+        int fMonk = int.Parse(new string(line[5].Where(c => char.IsDigit(c)).ToArray()));
 
-    _ = new Monkey(Monkeys, 0, new() { 54, 89, 94 }, Operation.Mul, 7, 17, 5, 3);
-    _ = new Monkey(Monkeys, 1, new() { 66, 71 }, Operation.Add, 4, 3, 0, 3);
-    _ = new Monkey(Monkeys, 2, new() { 76, 55, 80, 55, 55, 96, 78 }, Operation.Add, 2, 5, 7, 4);
-    _ = new Monkey(Monkeys, 3, new() { 93, 69, 76, 66, 89, 54, 59, 94 }, Operation.Add, 7, 7, 5, 2);
-    _ = new Monkey(Monkeys, 4, new() { 80, 54, 58, 75, 99 }, Operation.Mul, 17, 11, 1, 6);
-    _ = new Monkey(Monkeys, 5, new() { 69, 70, 85, 83 }, Operation.Add, 8, 19, 2, 7);
-    _ = new Monkey(Monkeys, 6, new() { 89 }, Operation.Add, 6, 2, 0, 1);
-    _ = new Monkey(Monkeys, 7, new() { 62, 80, 58, 57, 93, 56 }, Operation.Square, 0, 13, 6, 4);
+        _ = new Monkey(Monkeys, n, startingList, op, opFactor, div, tMonk, fMonk);
+    }
     return Monkeys;
 }
 
