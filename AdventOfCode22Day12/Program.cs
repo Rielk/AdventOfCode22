@@ -25,13 +25,16 @@ Map Map = new(Heights);
 
 Map.RunDijkstra();
 
-int CountToEnd = Map.Start.DistanceFromEnd;
-Console.WriteLine($"Shortest path takes: {CountToEnd} steps");
+int CountFromStart = Map.Start.DistanceFromEnd;
+Console.WriteLine($"Shortest path from start takes: {CountFromStart} steps");
 
 Console.WriteLine();
 
-//foreach (Location[] row in Map.LocationGrid)
-//{
-//    char[] chars = row.Select(l => (char)(l.Height + 97)).ToArray();
-//    Console.WriteLine(new string(chars));
-//}
+int SmallestCount = int.MaxValue;
+foreach (Location? potentialStart in Map.LocationGrid.SelectMany(x => x).Where(l => l.Height == 0))
+{
+    Map.RunDijkstra(potentialStart);
+    if (potentialStart.DistanceFromEnd < SmallestCount)
+        SmallestCount = potentialStart.DistanceFromEnd;
+}
+Console.WriteLine($"Shortest path from any a takes: {SmallestCount} steps");

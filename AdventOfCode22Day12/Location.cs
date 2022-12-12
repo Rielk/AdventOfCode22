@@ -26,7 +26,7 @@ internal class Location
     public bool IsEnd { get; }
 
     public bool Visited { get; private set; } = false;
-    public int DistanceFromEnd { get; private set; } = int.MaxValue;
+    public int DistanceFromEnd { get; private set; } = int.MaxValue / 2;
 
     public void UpdateSurroundings()
     {
