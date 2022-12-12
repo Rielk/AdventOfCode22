@@ -35,9 +35,11 @@ internal class Map
         UnvisitedLocations = new(LocationGrid.SelectMany(x => x));
     }
 
-    public void RunDijkstra()
+    public void RunDijkstra(Location? Target = null)
     {
-        while (!Start.Visited)
+        Target ??= Start;
+
+        while (!Target.Visited)
         {
             int min = UnvisitedLocations.Select(y => y.DistanceFromEnd).Min();
             Location Current = UnvisitedLocations.Where(x => x.DistanceFromEnd == min).First();
