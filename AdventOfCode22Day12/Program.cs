@@ -15,7 +15,7 @@ foreach (string line in input.Split(Environment.NewLine))
         else if (c == 'E')
             h = int.MaxValue;
         else
-            h = c - 97;
+            h = c;
         rowHeights.Add(h);
     }
     Heights.Add(rowHeights);
@@ -31,7 +31,7 @@ Console.WriteLine($"Shortest path from start takes: {CountFromStart} steps");
 Console.WriteLine();
 
 int SmallestCount = int.MaxValue;
-foreach (Location? potentialStart in Map.LocationGrid.SelectMany(x => x).Where(l => l.Height == 0))
+foreach (Location? potentialStart in Map.LocationGrid.SelectMany(x => x).Where(l => l.Height == 'a'))
 {
     Map.RunDijkstra(potentialStart);
     if (potentialStart.DistanceFromEnd < SmallestCount)

@@ -8,14 +8,9 @@ internal class Location
         PositionY = positionY;
         Map = map;
         IsStart = isStart;
-        if (isStart)
-            Height = 0;
         IsEnd = isEnd;
         if (isEnd)
-        {
-            Height = 25;
             DistanceFromEnd = 0;
-        }
     }
 
     public int Height { get; }

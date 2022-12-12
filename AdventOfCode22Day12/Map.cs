@@ -23,9 +23,9 @@ internal class Map
             {
                 int h = locationGrid[i][j];
                 if (h == int.MaxValue)
-                    End = LocationGrid[i][j] = new Location(h, j, i, this, isEnd: true);
+                    End = LocationGrid[i][j] = new Location('z', j, i, this, isEnd: true);
                 else if (h == int.MinValue)
-                    Start = LocationGrid[i][j] = new Location(h, j, i, this, isStart: true);
+                    Start = LocationGrid[i][j] = new Location('a', j, i, this, isStart: true);
                 else
                     LocationGrid[i][j] = new Location(h, j, i, this);
             }
