@@ -6,7 +6,7 @@ internal class Map
 
     public Location[][] LocationGrid;
 
-    private List<Location> TrailEnds { get; }
+    public List<Location> UnvisitedLocations { get; }
 
     public Location Start { get; }
     public Location End { get; }
@@ -32,14 +32,17 @@ internal class Map
         }
         if (Start == null || End == null) throw new ArgumentException(nameof(locationGrid), "Must contain \'S\' and \'E\' characters");
 
-        TrailEnds = new() { End };
+        UnvisitedLocations = new(LocationGrid.SelectMany(x => x));
     }
 
-    public void RunOnePass()
+    public void RunDijkstra()
     {
-        foreach (Location location in LocationGrid.SelectMany(e => e).ToArray())
-            location.UpdateSurroundings();
-        foreach (Location location in LocationGrid.SelectMany(e => e))
-            location.CommitCache();
+        while (!Start.Visited)
+        {
+            int min = UnvisitedLocations.Select(y => y.DistanceFromEnd).Min();
+            Location Current = UnvisitedLocations.Where(x => x.DistanceFromEnd == min).First();
+
+            Current.UpdateSurroundings();
+        }
     }
 }

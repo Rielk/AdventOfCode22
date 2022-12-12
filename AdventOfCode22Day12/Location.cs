@@ -13,8 +13,8 @@ internal class Location
         IsEnd = isEnd;
         if (isEnd)
         {
-            Height = 26;
-            CurrentDirection = CachedDirection = Direction.Target;
+            Height = 25;
+            DistanceFromEnd = 0;
         }
     }
 
@@ -25,84 +25,43 @@ internal class Location
     public bool IsStart { get; }
     public bool IsEnd { get; }
 
-    public Direction? CurrentDirection { get; private set; } = null;
-    public Direction? CachedDirection { get; set; } = null;
-    public bool HasUpdatedSurroundings { get; private set; } = false;
+    public bool Visited { get; private set; } = false;
+    public int DistanceFromEnd { get; private set; } = int.MaxValue;
 
     public void UpdateSurroundings()
     {
-        if (HasUpdatedSurroundings) return;
-        if (CurrentDirection == null) return;
+        if (Visited) throw new Exception();
 
         int x = PositionX;
         int y = PositionY;
 
+        int nextDistance = DistanceFromEnd + 1;
         if (y - 1 >= 0)
         {
             Location above = Map.LocationGrid[y - 1][x];
-            if (above.CachedDirection == null && above.Height + 1 >= Height)
-                above.CachedDirection = Direction.Do;
+            if (!above.Visited && above.Height + 1 >= Height && nextDistance < above.DistanceFromEnd)
+                above.DistanceFromEnd = nextDistance;
         }
         if (y + 1 < Map.Height)
         {
             Location below = Map.LocationGrid[y + 1][x];
-            if (below.CachedDirection == null && below.Height + 1 >= Height)
-                below.CachedDirection = Direction.Up;
+            if (!below.Visited && below.Height + 1 >= Height && nextDistance < below.DistanceFromEnd)
+                below.DistanceFromEnd = DistanceFromEnd + 1;
         }
         if (x - 1 >= 0)
         {
             Location left = Map.LocationGrid[y][x - 1];
-            if (left.CachedDirection == null && left.Height + 1 >= Height)
-                left.CachedDirection = Direction.Ri;
+            if (!left.Visited && left.Height + 1 >= Height && nextDistance < left.DistanceFromEnd)
+                left.DistanceFromEnd = DistanceFromEnd + 1;
         }
         if (x + 1 < Map.Width)
         {
             Location right = Map.LocationGrid[y][x + 1];
-            if (right.CachedDirection == null && right.Height + 1 >= Height)
-                right.CachedDirection = Direction.Le;
+            if (!right.Visited && right.Height + 1 >= Height && nextDistance < right.DistanceFromEnd)
+                right.DistanceFromEnd = DistanceFromEnd + 1;
         }
+
+        Visited = true;
+        _ = Map.UnvisitedLocations.Remove(this);
     }
-
-    public void CommitCache() => CurrentDirection = CachedDirection;
-
-    public bool CountToEnd(out int count)
-    {
-        if (CurrentDirection == null) { count = -1; return false; }
-        if (CurrentDirection == Direction.Target) { count = 0; return true; }
-        Location location = CurrentDirection switch
-        {
-            Direction.Up => Map.LocationGrid[PositionY - 1][PositionX],
-            Direction.Do => Map.LocationGrid[PositionY + 1][PositionX],
-            Direction.Le => Map.LocationGrid[PositionY][PositionX - 1],
-            Direction.Ri => Map.LocationGrid[PositionY][PositionX + 1],
-            _ => throw new NotImplementedException(),
-        };
-        if (!location.CountToEnd(out count))
-            return false;
-        count++;
-        return true;
-    }
-}
-
-public enum Direction
-{
-    Up, Do, Le, Ri, Target
-}
-
-public static class DirectionExtensions
-{
-    public static char ToChar(this Direction direction) => ToChar((Direction?)direction);
-    public static char ToChar(this Direction? direction)
-    {
-        return direction switch
-        {
-            Direction.Up => '^',
-            Direction.Do => 'V',
-            Direction.Le => '<',
-            Direction.Ri => '>',
-            Direction.Target => 'E',
-            _ => '.',
-        };
-    }
-
 }

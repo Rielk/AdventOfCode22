@@ -23,16 +23,15 @@ foreach (string line in input.Split(Environment.NewLine))
 
 Map Map = new(Heights);
 
-while (Map.Start.CurrentDirection == null)
-    Map.RunOnePass();
+Map.RunDijkstra();
 
-_ = Map.Start.CountToEnd(out int CountToEnd);
+int CountToEnd = Map.Start.DistanceFromEnd;
 Console.WriteLine($"Shortest path takes: {CountToEnd} steps");
 
 Console.WriteLine();
 
-foreach (Location[] row in Map.LocationGrid)
-{
-    char[] chars = row.Select(l => l.CurrentDirection.ToChar()).ToArray();
-    Console.WriteLine(new string(chars));
-}
+//foreach (Location[] row in Map.LocationGrid)
+//{
+//    char[] chars = row.Select(l => (char)(l.Height + 97)).ToArray();
+//    Console.WriteLine(new string(chars));
+//}
