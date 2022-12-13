@@ -71,68 +71,38 @@ internal class ValueSet : IComparable<ValueSet>
 
     public static bool? CheckOrder(ValueSet left, ValueSet right)
     {
-        int count = Math.Max(left.Values.Length, right.Values.Length);
-        foreach (int i in Enumerable.Range(0, count))
-        {
-            if (i >= left.Values.Length)
-                return true;
-            if (i >= right.Values.Length)
-                return false;
-            object l = left.Values[i];
-            object r = right.Values[i];
-
-            if (l is int lInt && r is int rInt)
-            {
-                if (lInt < rInt)
-                    return true;
-                else if (lInt > rInt)
-                    return false;
-                else
-                    continue;
-            }
-            else if (l is ValueSet lVS && r is ValueSet rVS)
-            {
-                bool? res = CheckOrder(lVS, rVS);
-                if (res.HasValue) return res;
-                else continue;
-            }
-            else
-            {
-                ValueSet LeftVS = l as ValueSet ?? new ValueSet((int)l);
-                ValueSet RightVS = r as ValueSet ?? new ValueSet((int)r);
-                bool? res = CheckOrder(LeftVS, RightVS);
-                if (res.HasValue) return res;
-                else continue;
-            }
-        }
-        return null;
-    }
-
-    public int CompareTo(ValueSet? other)
-    {
-        if (other == null) throw new NotImplementedException();
-        bool? res = CheckOrder(this, other);
-        if (res == null)
-            return 0;
-        else if (res == true)
-            return -1;
-        else if (res == false)
-            return 1;
+        int res = left.CompareTo(right);
+        if (res == 0)
+            return null;
+        else if (res == -1)
+            return true;
+        else if (res == 1)
+            return false;
         throw new NotImplementedException();
     }
 
-    public override string ToString()
+    public int CompareTo(int other) => CompareTo(new ValueSet(other));
+    public int CompareTo(ValueSet? other)
     {
-        string res = "[";
-        int i = 0;
-        foreach (object item in Values)
+        if (other == null) throw new NotImplementedException();
+
+        int count = Math.Max(Values.Length, other.Values.Length);
+        foreach (int i in Enumerable.Range(0, count))
         {
-            res += item.ToString();
-            if (i != Values.Length - 1)
-                res += ",";
-            i++;
+            if (i >= Values.Length) return -1;
+            if (i >= other.Values.Length) return 1;
+
+            int res = (Values[i], other.Values[i]) switch
+            {
+                (ValueSet LeftVS, ValueSet RightVS) => LeftVS.CompareTo(RightVS),
+                (ValueSet LeftVS, int RightInt) => LeftVS.CompareTo(RightInt),
+                (int LeftInt, ValueSet RightVS) => -1 * RightVS.CompareTo(LeftInt),
+                (int LeftInt, int RightInt) => LeftInt.CompareTo(RightInt),
+                _ => throw new NotImplementedException()
+            };
+
+            if (res != 0) return res;
         }
-        res += "]";
-        return res;
+        return 0;
     }
 }
