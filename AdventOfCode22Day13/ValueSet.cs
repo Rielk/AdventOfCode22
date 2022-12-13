@@ -1,5 +1,5 @@
 ﻿namespace AdventOfCode22Day13;
-internal class ValueSet
+internal class ValueSet : IComparable<ValueSet>
 {
     public object[] Values { get; }
 
@@ -106,5 +106,33 @@ internal class ValueSet
             }
         }
         return null;
+    }
+
+    public int CompareTo(ValueSet? other)
+    {
+        if (other == null) throw new NotImplementedException();
+        bool? res = CheckOrder(this, other);
+        if (res == null)
+            return 0;
+        else if (res == true)
+            return -1;
+        else if (res == false)
+            return 1;
+        throw new NotImplementedException();
+    }
+
+    public override string ToString()
+    {
+        string res = "[";
+        int i = 0;
+        foreach (object item in Values)
+        {
+            res += item.ToString();
+            if (i != Values.Length - 1)
+                res += ",";
+            i++;
+        }
+        res += "]";
+        return res;
     }
 }
