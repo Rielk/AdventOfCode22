@@ -33,6 +33,8 @@ internal class ValueSet
         }
     }
 
+    private ValueSet(int i) { Values = new object[] { i }; }
+
     public static ValueSet CreateValueSet(string input)
     {
         var InputState = input.ToCharArray().Cast<object>().ToList();
@@ -67,5 +69,42 @@ internal class ValueSet
         return (ValueSet)InputState[0];
     }
 
+    public static bool? CheckOrder(ValueSet left, ValueSet right)
+    {
+        int count = Math.Max(left.Values.Length, right.Values.Length);
+        foreach (int i in Enumerable.Range(0, count))
+        {
+            if (i >= left.Values.Length)
+                return true;
+            if (i >= right.Values.Length)
+                return false;
+            object l = left.Values[i];
+            object r = right.Values[i];
 
+            if (l is int lInt && r is int rInt)
+            {
+                if (lInt < rInt)
+                    return true;
+                else if (lInt > rInt)
+                    return false;
+                else
+                    continue;
+            }
+            else if (l is ValueSet lVS && r is ValueSet rVS)
+            {
+                bool? res = CheckOrder(lVS, rVS);
+                if (res.HasValue) return res;
+                else continue;
+            }
+            else
+            {
+                ValueSet LeftVS = l as ValueSet ?? new ValueSet((int)l);
+                ValueSet RightVS = r as ValueSet ?? new ValueSet((int)r);
+                bool? res = CheckOrder(LeftVS, RightVS);
+                if (res.HasValue) return res;
+                else continue;
+            }
+        }
+        return null;
+    }
 }

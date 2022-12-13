@@ -1,7 +1,7 @@
 ﻿using AdventOfCode22Day13;
 using AdventOfCode22Day13.Properties;
 
-string input = Resources.InputTest;
+string input = Resources.Input1;
 
 List<ValuePair> Values = new();
 
@@ -13,6 +13,15 @@ foreach (string pair in input.Split(Environment.NewLine + Environment.NewLine))
     Values.Add(new(value1, value2));
 }
 
-Console.WriteLine();
+int i = 1;
+int IndexSum = 0;
+foreach (ValuePair pair in Values)
+{
+    if (ValueSet.CheckOrder(pair.Value1, pair.Value2) != false)
+        IndexSum += i;
+    i++;
+}
+
+Console.WriteLine($"Sum of indices of correct packet pairs: {IndexSum}");
 
 internal record ValuePair(ValueSet Value1, ValueSet Value2) { }
