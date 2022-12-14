@@ -23,7 +23,7 @@ foreach (string line in input.Split(Environment.NewLine))
 
 Map Map = new(Heights);
 
-Map.RunDijkstra();
+Map.AnimateDijkstra(5);
 
 int CountFromStart = Map.Start.DistanceFromEnd;
 Console.WriteLine($"Shortest path from start takes: {CountFromStart} steps");

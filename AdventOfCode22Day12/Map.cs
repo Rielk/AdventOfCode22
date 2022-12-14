@@ -1,4 +1,7 @@
-﻿namespace AdventOfCode22Day12;
+﻿using AnimatedGif;
+using System.Drawing;
+
+namespace AdventOfCode22Day12;
 internal class Map
 {
     public int Height { get; }
@@ -35,16 +38,52 @@ internal class Map
         UnvisitedLocations = new(LocationGrid.SelectMany(x => x));
     }
 
-    public void RunDijkstra(Location? Target = null)
+    public void AnimateDijkstra(int scale)
     {
-        Target ??= Start;
+        using AnimatedGifCreator gif = new("Dijkstra.gif", 20);
+        Bitmap Bitmap = CreateBitmap(scale);
+        gif.AddFrame(Bitmap, 200);
+        RunDijkstra(Start, (oldLoc, newLoc) =>
+        {
+            if (oldLoc != null)
+                AddToBitmap(Bitmap, oldLoc.PositionX, oldLoc.PositionY, Color.FromArgb(0, 0, 255 - (oldLoc.DistanceFromEnd / 2)), scale);
+            AddToBitmap(Bitmap, newLoc.PositionX, newLoc.PositionY, Color.FromArgb(0, 255, 0), scale);
+            gif.AddFrame(Bitmap);
+        });
+        gif.AddFrame(Bitmap, 1000);
+    }
 
+    public void RunDijkstra(Location Target, Action<Location?, Location>? afterUpdateAction = null)
+    {
+        Location? Current = null;
         while (!Target.Visited)
         {
+            Location? Previous = Current;
+
             int min = UnvisitedLocations.Select(y => y.DistanceFromEnd).Min();
-            Location Current = UnvisitedLocations.Where(x => x.DistanceFromEnd == min).First();
+            Current = UnvisitedLocations.Where(x => x.DistanceFromEnd == min).First();
 
             Current.UpdateSurroundings();
+
+            afterUpdateAction?.Invoke(Previous, Current);
         }
+    }
+
+    public Bitmap CreateBitmap(int scale)
+    {
+        Bitmap bm = new(Width * scale, Height * scale);
+        for (int i = 0; i < Width; i++)
+            for (int j = 0; j < Height; j++)
+                AddToBitmap(bm, i, j, Color.FromArgb((LocationGrid[j][i].Height - 'a') * 10, 0, 0), scale);
+        return bm;
+    }
+
+    private static void AddToBitmap(Bitmap bitmap, int x, int y, Color color, int scale)
+    {
+        int x1 = x * scale;
+        int y1 = y * scale;
+        for (int i = 0; i < scale; i++)
+            for (int j = 0; j < scale; j++)
+                bitmap.SetPixel(x1 + i, y1 + j, color);
     }
 }
