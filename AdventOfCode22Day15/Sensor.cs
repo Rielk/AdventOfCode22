@@ -31,9 +31,9 @@ internal class Sensor
         if (yOff > Radius) yield break;
 
         int xOff = Radius - yOff;
-        int xOffSave = xOff;
+        int xOffMin = -xOff;
 
-        while (xOff >= -xOffSave)
+        while (xOff >= xOffMin)
         {
             yield return new(Location.x - xOff, y);
             xOff--;

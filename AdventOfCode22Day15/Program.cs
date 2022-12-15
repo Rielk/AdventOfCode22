@@ -33,24 +33,13 @@ foreach (string line in input.Split(Environment.NewLine))
     if (sensorLoc.x + distance > maxX) maxX = sensorLoc.x + distance;
 }
 
-int NotBeacon = Sensors.SelectMany(s => s.PointsAtY(CheckRow)).Distinct().Count();
+int NotBeacon = Sensors.SelectMany(s => s.PointsAtY(CheckRow).Select(p => p.x)).Distinct().Count();
 NotBeacon -= Sensors.Select(s => s.Beacon).Distinct().Where(b => b.Location.y == CheckRow).Count();
 
 Console.WriteLine($"Posiotion not beacon on line {CheckRow}: {NotBeacon}");
 Console.WriteLine();
 
-Location BeaconLoc = GetPossibleLocation();
-
-Location GetPossibleLocation()
-{
-    foreach (Sensor sensor in Sensors)
-        foreach (Location checkLoc in sensor.PointsNextToRegion())
-            if (checkLoc.x is >= 0 and <= SearchRange)
-                if (checkLoc.y is >= 0 and <= SearchRange)
-                    if (!InSensorRange(checkLoc))
-                        return checkLoc;
-    throw new Exception();
-}
+Location BeaconLoc = Sensors.SelectMany(s => s.PointsNextToRegion()).Where(l => l.x is >= 0 and <= SearchRange && l.y is >= 0 and <= SearchRange).Where(l => !InSensorRange(l)).First();
 
 BigInteger TuningFrequency = (BigInteger)4000000 * BeaconLoc.x + BeaconLoc.y;
 Console.WriteLine($"Tuning Frequency: {TuningFrequency}");
