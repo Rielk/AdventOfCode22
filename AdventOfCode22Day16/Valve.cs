@@ -6,7 +6,7 @@ internal class Valve
     private string[] NextValvesNames { get; }
     public Valve[] NextValves = Array.Empty<Valve>();
 
-    public Dictionary<Valve, int> DistancesDict = new();
+    private Dictionary<Valve, int> DistancesDict = new();
 
     public Valve(string name, int flowRate, string[] nextValves)
     {
@@ -26,7 +26,7 @@ internal class Valve
             DistancesDict.Add(valve, -1);
     }
 
-    internal void FindShortestDistances()
+    public void FindShortestDistances()
     {
         Dictionary<Valve, bool> Visited = new();
         foreach (Valve valve in DistancesDict.Keys)
@@ -47,5 +47,12 @@ internal class Valve
             }
             i++;
         }
+    }
+
+    public int DistanceTo(Valve valve)
+    {
+        int ret = DistancesDict[valve];
+        if (ret < 0) throw new Exception();
+        return ret;
     }
 }
