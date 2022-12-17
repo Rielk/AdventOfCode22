@@ -36,12 +36,26 @@ internal class Cavern
         }
     }
 
+    public void AddUntilLoop(out int loopLength, out int loopHeight)
+    {
+        int startHeight = HighestRock;
+        Rock startRock = CurrentRock;
+        int startJet = CurrentJet;
+        loopLength = 1;
+        AddRock();
+        while (startRock != CurrentRock || startJet != currentJet)
+        {
+            loopLength++;
+            AddRock();
+        }
+        loopHeight = HighestRock - startHeight;
+    }
     public void AddRocks(int i)
     {
         foreach (int _ in Enumerable.Range(0, i))
             AddRock();
     }
-    public void AddRock()
+    private void AddRock()
     {
         CurrentRock.Position = new(2, HighestRock + 4);
         while (true)

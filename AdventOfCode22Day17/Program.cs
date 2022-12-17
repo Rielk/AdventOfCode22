@@ -19,3 +19,14 @@ Cavern Cavern = new(Directions);
 Cavern.AddRocks(2022);
 
 Console.WriteLine($"Highest Rock after 2022: {Cavern.HighestRock}");
+Console.WriteLine();
+
+int StartHeight = Cavern.HighestRock;
+Cavern.AddUntilLoop(out int LoopLength, out int LoopHeight);
+
+long RocksNeeded = 1000000000000 - 2022 - LoopLength;
+long AdditionalHeight = (RocksNeeded / LoopLength) * LoopHeight;
+RocksNeeded %= LoopLength;
+Cavern.AddRocks((int)RocksNeeded);
+long FinalHeight = Cavern.HighestRock + AdditionalHeight;
+Console.WriteLine($"Highest Rock after 1000000000000: {FinalHeight}");
