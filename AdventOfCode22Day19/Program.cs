@@ -1,7 +1,7 @@
 ﻿using AdventOfCode22Day19;
 using AdventOfCode22Day19.Properties;
 
-string input = Resources.InputTest;
+string input = Resources.Input1;
 
 List<Manager> Managers = new();
 foreach (string line in input.Split(Environment.NewLine))

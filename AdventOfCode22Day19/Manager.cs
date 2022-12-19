@@ -39,7 +39,7 @@ internal class Manager
         MaxClay = MaxClayRobots * 2;
         MaxObsidian = MaxObsidianRobots * 2;
 
-        //Ore, Clay, Obsidian, OreR, ClayR, ObsidianR
+        //Ore, Clay, Obsidian, OreR, ClayR, ObsidianR, GeodeR
         Dictionary<(int, int, int, int, int, int, int), int> stateSpace = new()
         {
             { (0, 0, 0, 1, 0, 0, 0), 0 }
@@ -98,9 +98,9 @@ internal class Manager
                 if (ore > MaxOre) ore = MaxOre;
                 if (clay > MaxClay) clay = MaxClay;
                 if (obsidian > MaxObsidian) obsidian = MaxObsidian;
-                if (oreRob > MaxOreRobots) break;
-                if (clayRob > MaxClayRobots) break;
-                if (obsidianRob > MaxObsidianRobots) break;
+                if (oreRob > MaxOreRobots) continue;
+                if (clayRob > MaxClayRobots) continue;
+                if (obsidianRob > MaxObsidianRobots) continue;
 
                 if (!newStateSpace.TryAdd((ore, clay, obsidian, oreRob, clayRob, obsidianRob, geodeRob), currentGeodes))
                     if (newStateSpace[(ore, clay, obsidian, oreRob, clayRob, obsidianRob, geodeRob)] < currentGeodes)
