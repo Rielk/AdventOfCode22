@@ -1,7 +1,7 @@
 ﻿using AdventOfCode22Day19;
 using AdventOfCode22Day19.Properties;
 
-string input = Resources.Input1;
+string input = Resources.InputTest;
 
 List<Manager> Managers = new();
 foreach (string line in input.Split(Environment.NewLine))
@@ -17,11 +17,16 @@ foreach (string line in input.Split(Environment.NewLine))
         cost[1] = int.Parse(costString.Where(s => s.Contains("clay")).FirstOrDefault("0").Where(c => char.IsDigit(c)).ToArray());
         cost[2] = int.Parse(costString.Where(s => s.Contains("obsidian")).FirstOrDefault("0").Where(c => char.IsDigit(c)).ToArray());
     }
-    Managers.Add(new(oreCost, clayCost, obsidianCost, geodeCost));
+    Managers.Add(new(Managers.Count < 3 ? 32 : 24, oreCost, clayCost, obsidianCost, geodeCost));
 }
 
-int[] MaxGeodes = Managers.Select(m => m.CalculateMaxGeode(24)).ToArray();
+int[] MaxGeodes = Managers.Select(m => m.MaxGeodesAtTime(24)).ToArray();
 int QualityLevelSum = MaxGeodes.Select((x, i) => x * (i + 1)).Sum();
 
 Console.WriteLine($"Sum of Quality Levels: {QualityLevelSum}");
 Console.WriteLine();
+
+int[] LongMaxGeodes = Managers.Take(3).Select(m => m.MaxGeodesAtTime(32)).ToArray();
+int ProductionProduct = LongMaxGeodes.Aggregate(1, (x, y) => x * y);
+
+Console.WriteLine($"Product of longer production: {ProductionProduct}");
