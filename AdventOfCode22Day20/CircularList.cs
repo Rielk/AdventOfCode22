@@ -39,13 +39,14 @@ internal class CircularList<T> : IEnumerable<T>, ICollection<T>
         List.Insert(endIndex, cahce);
     }
 
-    public void MoveBy(int index, int amount)
+    public void MoveBy(int index, int amount) => MoveBy(index, (long)amount);
+    public void MoveBy(int index, long amount)
     {
         if (index < 0 || index >= Count) throw new Exception();
 
         int CountM1 = Count - 1;
         amount %= CountM1;
-        int newPosition = index + amount;
+        int newPosition = index + (int)amount;
         newPosition %= CountM1;
         newPosition = newPosition == 0 ? CountM1 : newPosition;
         if (newPosition < 0)

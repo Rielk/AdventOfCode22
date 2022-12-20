@@ -3,35 +3,42 @@ using AdventOfCode22Day20.Properties;
 
 string input = Resources.Input1;
 
-CircularList<IntClass> Sequence = new();
+CircularList<IntClass> Sequence1 = new();
+CircularList<LongClass> Sequence2 = new();
 foreach (string line in input.Split(Environment.NewLine))
 {
     int value = int.Parse(line);
-    Sequence.Add(new(value));
+    Sequence1.Add(new(value));
+    Sequence2.Add(new(value * (long)811589153));
 }
 
-CircularList<IntClass> TestSequence = new()
+foreach (IntClass item in Sequence1.ToArray())
 {
-    new(3),
-    new(3)
-};
-foreach (IntClass? item in TestSequence.ToArray())
-{
-    int index = TestSequence.IndexOf(item);
-}
-
-foreach (IntClass? item in Sequence.ToArray())
-{
-    int index = Sequence.IndexOf(item);
-    Sequence.MoveBy(index, item.Value);
+    int index = Sequence1.IndexOf(item);
+    Sequence1.MoveBy(index, item.Value);
 }
 
 
-int IndexOfZero = Sequence.IndexOf(Sequence.Where(x => x.Value == 0).First());
-int i1000 = Sequence[1000 + IndexOfZero].Value;
-int i2000 = Sequence[2000 + IndexOfZero].Value;
-int i3000 = Sequence[3000 + IndexOfZero].Value;
-int SumOfCoords = i1000 + i2000 + i3000;
+int IndexOfZero1 = Sequence1.IndexOf(Sequence1.Where(x => x.Value == 0).First());
+int i11000 = Sequence1[1000 + IndexOfZero1].Value;
+int i12000 = Sequence1[2000 + IndexOfZero1].Value;
+int i13000 = Sequence1[3000 + IndexOfZero1].Value;
+int SumOfCoords1 = i11000 + i12000 + i13000;
 
-Console.WriteLine($"Sum of Coordinates: {SumOfCoords}");
+Console.WriteLine($"Sum of Coordinates: {SumOfCoords1}");
 Console.WriteLine();
+
+LongClass[] OriginalSequence2 = Sequence2.ToArray();
+foreach (int _ in Enumerable.Range(0, 10))
+    foreach (LongClass item in OriginalSequence2)
+    {
+        int index = Sequence2.IndexOf(item);
+        Sequence2.MoveBy(index, item.Value);
+    }
+int IndexOfZero2 = Sequence2.IndexOf(Sequence2.Where(x => x.Value == 0).First());
+long i21000 = Sequence2[1000 + IndexOfZero2].Value;
+long i22000 = Sequence2[2000 + IndexOfZero2].Value;
+long i23000 = Sequence2[3000 + IndexOfZero2].Value;
+long SumOfCoords2 = i21000 + i22000 + i23000;
+
+Console.WriteLine($"Sum of Coordinates after decryption: {SumOfCoords2}");
