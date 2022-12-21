@@ -54,6 +54,17 @@ foreach (Action<Dictionary<string, Monkey>> action in SetupActions)
     action.Invoke(Monkeys);
 SetupActions.Clear();
 
-Monkey RootMonkey = Monkeys["root"];
+var RootMonkey = (OperatorMonkey)Monkeys["root"];
 
 Console.WriteLine($"Root monkey will yell: {RootMonkey.Value}");
+Console.WriteLine();
+
+var HumanMonkey = (ValueMonkey)Monkeys["humn"];
+HumanMonkey.NullifyValue();
+RootMonkey.ClearCachedValues();
+
+if (RootMonkey.Monkey1.Value == null)
+    RootMonkey.Monkey1.AssertEqual(RootMonkey.Monkey2.Value ?? throw new Exception());
+else
+    RootMonkey.Monkey2.AssertEqual(RootMonkey.Monkey1.Value ?? throw new Exception());
+Console.WriteLine($"Human must yell: {HumanMonkey.Value}");

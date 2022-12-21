@@ -1,7 +1,7 @@
 ﻿namespace AdventOfCode22Day21;
 internal abstract class Monkey
 {
-    public abstract long Value { get; }
+    public abstract long? Value { get; }
 
     public string Name { get; }
 
@@ -9,4 +9,6 @@ internal abstract class Monkey
     {
         Name = name;
     }
+
+    internal abstract void AssertEqual(long target);
 }
