@@ -68,18 +68,7 @@ namespace AdventOfCode22Day5.Properties {
         ///[Q]     [W] [N] [J] [T] [Q] [R] [B]
         ///[N] [B] [Q] [R] [V] [F] [D] [F] [M]
         ///[H] [W] [S] [J] [P] [W] [L] [P] [S]
-        ///[D] [D] [T] [F] [G] [B] [B] [H] [Z]
-        /// 1   2   3   4   5   6   7   8   9 
-        ///
-        ///move 2 from 8 to 1
-        ///move 4 from 9 to 8
-        ///move 2 from 1 to 6
-        ///move 7 from 4 to 2
-        ///move 10 from 2 to 7
-        ///move 2 from 1 to 6
-        ///move 1 from 9 to 4
-        ///move 1 from 4 to 1
-        ///move 8 from 6 to [rest of string was truncated]&quot;;.
+        ///[D] [D] [T] [F] [G] [B] [B] [H] [Z].
         /// </summary>
         internal static string Input1 {
             get {
