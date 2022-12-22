@@ -4,7 +4,7 @@ using AdventOfCode22Day22.Properties;
 string inputMap = Resources.Input1;
 string inputDirection = Resources.Input2;
 
-Map Map = new(inputMap);
+FlatMap FlatMap = new(inputMap, 50);
 
 List<StepOrder> StepOrders = new();
 {
@@ -33,8 +33,8 @@ List<StepOrder> StepOrders = new();
 }
 
 foreach (StepOrder order in StepOrders)
-    order.Execute(Map);
+    order.Execute(FlatMap);
 
-int FinalPassword = (1000 * Map.Location.y) + (4 * Map.Location.x) + Map.LookingDirection.ToScore();
+int FinalPassword = (1000 * FlatMap.Location.y) + (4 * FlatMap.Location.x) + FlatMap.LookingDirection.ToScore();
 Console.WriteLine($"Final Password: {FinalPassword}");
 Console.WriteLine();
