@@ -16,7 +16,7 @@ internal class FlatMap : Map
                 Square down = Squares[i, j + 1 < Height ? j + 1 : 0] ?? ArrayColumn(Squares, i).First(x => x != null);
                 Square left = Squares[i - 1 >= 0 ? i - 1 : Width - 1, j] ?? ArrayRow(Squares, j).Reverse().First(x => x != null);
                 Square right = Squares[i + 1 < Width ? i + 1 : 0, j] ?? ArrayRow(Squares, j).First(x => x != null);
-                square.InitSquare(up, down, left, right, Axis3D.UpDown, Axis3D.LeftRight);
+                square.InitSquare(up, down, left, right, Axis3D.Up, Axis3D.Left);
             }
 
         IEnumerable<Square> ArrayRow(Square[,] array, int row)

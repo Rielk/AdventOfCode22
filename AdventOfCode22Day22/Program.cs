@@ -5,6 +5,7 @@ string inputMap = Resources.Input1;
 string inputDirection = Resources.Input2;
 
 FlatMap FlatMap = new(inputMap, 50);
+CubeMap CubeMap = new(inputMap, 50);
 
 List<StepOrder> StepOrders = new();
 {
@@ -33,8 +34,14 @@ List<StepOrder> StepOrders = new();
 }
 
 foreach (StepOrder order in StepOrders)
+{
     order.Execute(FlatMap);
+    order.Execute(CubeMap);
+}
 
-int FinalPassword = (1000 * FlatMap.Location.y) + (4 * FlatMap.Location.x) + FlatMap.LookingDirection.ToScore();
-Console.WriteLine($"Final Password: {FinalPassword}");
+int FinalFlatPassword = (1000 * FlatMap.Location.y) + (4 * FlatMap.Location.x) + FlatMap.LookingDirection.ToScore();
+Console.WriteLine($"Final Password for Flat Map: {FinalFlatPassword}");
 Console.WriteLine();
+
+int FinalCubePassword = (1000 * CubeMap.Location.y) + (4 * CubeMap.Location.x) + CubeMap.LookingDirection.ToScore();
+Console.WriteLine($"Final Password for Cube Map: {FinalCubePassword}");
