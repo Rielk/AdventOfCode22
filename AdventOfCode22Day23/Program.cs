@@ -21,9 +21,11 @@ foreach (string line in input.Split(Environment.NewLine))
 }
 
 Direction StartDirection = Direction.North;
-foreach (int _ in Enumerable.Range(0, 10))
+int CompleteRounds = 0;
+bool stillMoving = true;
+while (stillMoving)
 {
-    bool stillMoving = false;
+    stillMoving = false;
     List<Elf> toMove = new();
     foreach (Elf elf in ElfLocations.Values)
         if (elf.CheckForMove(StartDirection))
@@ -33,16 +35,19 @@ foreach (int _ in Enumerable.Range(0, 10))
         }
     StartDirection = StartDirection.NextOrdinal();
 
-    if (!stillMoving)
-        break;
-
     foreach (Elf elf in toMove)
     {
         elf.CommitMove();
     }
+
+    CompleteRounds++;
+    if (CompleteRounds == 10)
+    {
+        int EmptyTiles = Utilities.GetEmptyTiles(ElfLocations);
+
+        Console.WriteLine($"Empty tiles in smallest rectange after 10 rounds: {EmptyTiles}");
+        Console.WriteLine();
+    }
 }
 
-int EmptyTiles = Utilities.GetEmptyTiles(ElfLocations);
-
-Console.WriteLine($"Empty tiles in smallest rectange: {EmptyTiles}");
-Console.WriteLine();
+Console.WriteLine($"Number of rounds Completed: {CompleteRounds}");
