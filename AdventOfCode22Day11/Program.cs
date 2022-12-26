@@ -1,6 +1,5 @@
 ﻿using AdventOfCode22Day11;
 using AdventOfCode22Day11.Properties;
-using System.Numerics;
 
 Dictionary<int, Monkey> Monkeys = CreateMonkeys();
 RunForNRounds(20, true);
@@ -24,7 +23,7 @@ static Dictionary<int, Monkey> CreateMonkeys()
     {
         string[] line = monkeyString.Split(Environment.NewLine);
         int n = int.Parse(new string(line[0].Where(c => char.IsDigit(c)).ToArray()));
-        var startingList = line[1].Split(':')[1].Split(',').Select(s => int.Parse(s.Trim())).Select(i => new BigInteger(i)).ToList();
+        var startingList = line[1].Split(':')[1].Split(',').Select(s => long.Parse(s.Trim())).ToList();
         Operation op = line[2].Trim()[21] switch { '*' => Operation.Mul, '+' => Operation.Add, _ => throw new NotImplementedException() };
         string opFactorS = new(line[2].Trim().Skip(22).ToArray());
         int opFactor = 0;
@@ -58,8 +57,8 @@ void WriteOutput()
         Console.WriteLine($"Monkey {i} inspected items {Monkeys[i].InspectionCount} times.");
     }
 
-    int[] largest = Monkeys.Values.Select(m => m.InspectionCount).OrderByDescending(x => x).Take(2).ToArray();
-    BigInteger MonkeyBusiness = (BigInteger)largest[0] * (BigInteger)largest[1];
+    long[] largest = Monkeys.Values.Select(m => (long)m.InspectionCount).OrderByDescending(x => x).Take(2).ToArray();
+    long MonkeyBusiness = largest[0] * largest[1];
 
     Console.WriteLine();
     Console.WriteLine($"Monkey Business is: {MonkeyBusiness}");

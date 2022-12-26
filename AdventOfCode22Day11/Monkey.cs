@@ -1,9 +1,7 @@
-﻿using System.Numerics;
-
-namespace AdventOfCode22Day11;
+﻿namespace AdventOfCode22Day11;
 internal class Monkey
 {
-    public Monkey(Dictionary<int, Monkey> monkeys, int thisMonkey, List<BigInteger> items, Operation operation, int operationFactor, int test, int trueTarget, int falseTarget)
+    public Monkey(Dictionary<int, Monkey> monkeys, int thisMonkey, List<long> items, Operation operation, int operationFactor, int test, int trueTarget, int falseTarget)
     {
         Monkeys = monkeys;
         if (Monkeys.ContainsKey(thisMonkey)) throw new ArgumentException(nameof(thisMonkey), "A monkey of this number already exists");
@@ -17,7 +15,7 @@ internal class Monkey
         FalseTarget = falseTarget;
     }
 
-    public List<BigInteger> Items { get; } = new();
+    public List<long> Items { get; } = new();
     public Operation Operation { get; }
     public int OperationFactor { get; }
     public int Test { get; }
@@ -30,11 +28,11 @@ internal class Monkey
 
     public void InspectAll(int? commonMultiple)
     {
-        foreach (BigInteger item in Items.ToArray())
+        foreach (long item in Items.ToArray())
         {
             InspectionCount++;
             Items.RemoveAt(0);
-            BigInteger worry = Operation switch
+            long worry = Operation switch
             {
                 Operation.Add => item + OperationFactor,
                 Operation.Mul => item * OperationFactor,
