@@ -1,6 +1,5 @@
 ﻿using AdventOfCode22Day15;
 using AdventOfCode22Day15.Properties;
-using System.Numerics;
 
 const int CheckRow = 2000000;//10;
 const int SearchRange = 4000000;//20;
@@ -41,7 +40,7 @@ Console.WriteLine();
 
 Location BeaconLoc = Sensors.SelectMany(s => s.PointsNextToRegion()).Where(l => l.x is >= 0 and <= SearchRange && l.y is >= 0 and <= SearchRange).Where(l => !InSensorRange(l)).First();
 
-BigInteger TuningFrequency = (BigInteger)4000000 * BeaconLoc.x + BeaconLoc.y;
+long TuningFrequency = (long)4000000 * BeaconLoc.x + BeaconLoc.y;
 Console.WriteLine($"Tuning Frequency: {TuningFrequency}");
 
 
