@@ -1,9 +1,6 @@
 ﻿namespace AdventOfCode22Day16;
 internal class DoubleNetwork : BaseNetwork
 {
-	private List<DoubleRoute> Permutations { get; } = new();
-
-	private Dictionary<int, Network.Route> PreviousExcludes { get; } = new();
 	private Dictionary<Valve, int> ValveKeyTable { get; } = new();
 
 	public DoubleNetwork(string input, int timeLimit) : base(input, timeLimit)
@@ -11,49 +8,49 @@ internal class DoubleNetwork : BaseNetwork
 		int i = 0;
 		foreach (Valve valve in Valves)
 			ValveKeyTable.Add(valve, (int)Math.Pow(2, i++));
-
-		FillPermutations(new List<Valve>() { StartNode }, 0);
 	}
 
-	private void FillPermutations(IEnumerable<Valve> initialStack, int timeUsed)
+	private IEnumerable<DoubleRoute> AllPermutations(IEnumerable<Valve> initialStack, int timeUsed, Dictionary<int, Network.Route>? previousExcludes = null)
 	{
+		previousExcludes ??= new();
+
 		Valve currValve = initialStack.Last();
 		foreach (Valve nextValve in Valves.Where(v => !initialStack.Contains(v)))
 		{
 			int timeForStep = currValve.DistanceTo(nextValve) + 1;
 			if (timeUsed + timeForStep < TimeLimit)
-				FillPermutations(initialStack.Append(nextValve), timeUsed + timeForStep);
+				foreach (DoubleRoute route in AllPermutations(initialStack.Append(nextValve), timeUsed + timeForStep, previousExcludes))
+					yield return route;
 		}
 
-		Network.Route altBest = GetBestSingleRoute(initialStack);
+		Network.Route altBest = GetBestSingleRoute(initialStack, previousExcludes);
 
-		Permutations.Add(new(initialStack, altBest.Stack, CalculateProduction(initialStack, TimeLimit) + altBest.Value));
-	}
+		yield return new(initialStack, altBest.Stack, CalculateProduction(initialStack, TimeLimit) + altBest.Value);
 
-	private Network.Route GetBestSingleRoute(IEnumerable<Valve> excludeValves)
-	{
-		int key = ValvesToKey(excludeValves);
-		if (!PreviousExcludes.TryGetValue(key, out Network.Route? best))
+		Network.Route GetBestSingleRoute(IEnumerable<Valve> excludeValves, Dictionary<int, Network.Route> previousExcludes)
 		{
-			Network altNetwork = new(TimeLimit, StartNode, Valves.Where(v => !excludeValves.Contains(v)).ToArray());
-			best = altNetwork.FindBestRoute();
-			PreviousExcludes.Add(key, best);
-		}
-		return best;
+			int key = ValvesToKey(excludeValves);
+			if (!previousExcludes.TryGetValue(key, out Network.Route? best))
+			{
+				Network altNetwork = new(TimeLimit, StartNode, Valves.Where(v => !excludeValves.Contains(v)).ToArray());
+				best = altNetwork.FindBestRoute();
+				previousExcludes.Add(key, best);
+			}
+			return best;
 
-		int ValvesToKey(IEnumerable<Valve> valves)
-		{
-			int total = 0;
-			foreach (Valve valve in valves)
-				if (valve != StartNode)
-					total += ValveKeyTable[valve];
-			return total;
+			int ValvesToKey(IEnumerable<Valve> valves)
+			{
+				int total = 0;
+				foreach (Valve valve in valves)
+					if (valve != StartNode)
+						total += ValveKeyTable[valve];
+				return total;
+			}
 		}
 	}
-
 	public int FindBestRoute(out IEnumerable<Valve> route1, out IEnumerable<Valve> route2)
 	{
-		DoubleRoute best = Permutations.Aggregate((x, y) => x.Value > y.Value ? x : y);
+		DoubleRoute best = AllPermutations(new List<Valve>() { StartNode }, 0).Aggregate((x, y) => x.Value > y.Value ? x : y);
 		route1 = best.Stack1;
 		route2 = best.Stack2;
 		return best.Value;

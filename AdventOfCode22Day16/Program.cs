@@ -12,6 +12,7 @@ Console.WriteLine($"Maximium possible production: {Best.Value}");
 Console.Write($"With Route:");
 Best.Stack.Select(v => v.Name).ToList().ForEach(s => Console.Write(s + " "));
 Console.WriteLine();
+Console.WriteLine();
 
 DoubleNetwork Network26 = new(input, 26);
 

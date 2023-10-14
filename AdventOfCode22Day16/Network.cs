@@ -1,19 +1,15 @@
 ﻿namespace AdventOfCode22Day16;
 internal class Network : BaseNetwork
 {
-	private List<Route> Permutations { get; } = new();
-
 	public Network(string input, int timeLimit) : base(input, timeLimit)
 	{
-		FillPermutations(new List<Valve>() { StartNode }, 0);
 	}
 
 	public Network(int timeLimit, Valve startNode, Valve[] valves) : base(timeLimit, startNode, valves)
 	{
-		FillPermutations(new List<Valve>() { StartNode }, 0);
 	}
 
-	private void FillPermutations(IEnumerable<Valve> initialStack, int timeUsed)
+	private IEnumerable<Route> AllPermutations(IEnumerable<Valve> initialStack, int timeUsed)
 	{
 		bool deadEnd = true;
 		Valve currValve = initialStack.Last();
@@ -23,15 +19,16 @@ internal class Network : BaseNetwork
 			if (timeUsed + timeForStep < TimeLimit)
 			{
 				deadEnd = false;
-				FillPermutations(initialStack.Append(nextValve), timeUsed + timeForStep);
+				foreach (Route route in AllPermutations(initialStack.Append(nextValve), timeUsed + timeForStep))
+					yield return route;
 			}
 		}
 
 		if (deadEnd)
-			Permutations.Add(new(initialStack, CalculateProduction(initialStack, TimeLimit)));
+			yield return new(initialStack, CalculateProduction(initialStack, TimeLimit));
 	}
 
-	public Route FindBestRoute() => Permutations.Aggregate((x, y) => x.Value > y.Value ? x : y);
+	public Route FindBestRoute() => AllPermutations(new List<Valve>() { StartNode }, 0).Aggregate((x, y) => x.Value > y.Value ? x : y);
 
 	public record Route(IEnumerable<Valve> Stack, int Value);
 }
