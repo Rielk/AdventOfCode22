@@ -1,34 +1,46 @@
 ﻿namespace AdventOfCode22Day24;
 internal class Blizzard
 {
-    public Blizzard(Direction direction)
-    {
-        Direction = direction;
-    }
+	private bool MovedThisRound { get; set; } = false;
 
-    public Direction Direction { get; }
+	public Blizzard(Direction direction)
+	{
+		Direction = direction;
+	}
 
-    public void Step(List<Blizzard>[,] blizzards, Location currentLocation)
-    {
-        _ = blizzards[currentLocation.x, currentLocation.y].Remove(this);
+	public Direction Direction { get; }
 
-        Location newLocation = Direction switch
-        {
-            Direction.Up => currentLocation.Offset(0, -1),
-            Direction.Down => currentLocation.Offset(0, 1),
-            Direction.Left => currentLocation.Offset(-1, 0),
-            Direction.Right => currentLocation.Offset(1, 0),
-            _ => throw new NotImplementedException(),
-        };
+	public bool Step(List<Blizzard>[,] blizzards, Location currentLocation)
+	{
+		if (MovedThisRound) return false;
 
-        int width = blizzards.GetLength(0);
-        int height = blizzards.GetLength(1);
+		_ = blizzards[currentLocation.x, currentLocation.y].Remove(this);
 
-        if (newLocation.x < 0) newLocation = new(width - 1, newLocation.y);
-        else if (newLocation.x >= width) newLocation = new(0, newLocation.y);
-        else if (newLocation.y < 0) newLocation = new(newLocation.x, height - 1);
-        else if (newLocation.y >= height) newLocation = new(newLocation.x, 0);
+		Location newLocation = Direction switch
+		{
+			Direction.Up => currentLocation.Offset(0, -1),
+			Direction.Down => currentLocation.Offset(0, 1),
+			Direction.Left => currentLocation.Offset(-1, 0),
+			Direction.Right => currentLocation.Offset(1, 0),
+			_ => throw new NotImplementedException(),
+		};
 
-        blizzards[newLocation.x, newLocation.y].Add(this);
-    }
+		int width = blizzards.GetLength(0);
+		int height = blizzards.GetLength(1);
+
+		if (newLocation.x < 0) newLocation = new(width - 1, newLocation.y);
+		else if (newLocation.x >= width) newLocation = new(0, newLocation.y);
+		else if (newLocation.y < 0) newLocation = new(newLocation.x, height - 1);
+		else if (newLocation.y >= height) newLocation = new(newLocation.x, 0);
+
+		blizzards[newLocation.x, newLocation.y].Add(this);
+
+		MovedThisRound = true;
+		return true;
+	}
+
+	public void NewRound()
+	{
+		MovedThisRound = false;
+	}
 }
